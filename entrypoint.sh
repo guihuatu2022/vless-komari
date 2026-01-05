@@ -17,6 +17,13 @@ mv v ${RELEASE_RANDOMNESS}
 cat config.json | base64 > config
 rm -f config.json
 
+# 月度流量统计（新增）
+KOMARI_MONTH_ROTATE=${KOMARI_MONTH_ROTATE:-0}
+if [ "${KOMARI_MONTH_ROTATE}" -gt 0 ] && [ "${KOMARI_MONTH_ROTATE}" -le 31 ]; then
+    KOMARI_ARGS="${KOMARI_ARGS} --month-rotate ${KOMARI_MONTH_ROTATE}"
+    echo "✅ Komari月度流量统计已启用: 每月${KOMARI_MONTH_ROTATE}号重置"
+fi
+
 # Komari Agent 配置和启动
 KOMARI_ARGS="--disable-auto-update"
 if [ "${KOMARI_ENABLE_WEBSSH}" != "true" ]; then
