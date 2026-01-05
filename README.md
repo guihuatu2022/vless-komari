@@ -29,13 +29,31 @@ cat /proc/sys/kernel/random/uuid
 # https://www.uuidgenerator.net/
 ```
 
-### Komari Agent 监控变量
+## 环境变量说明
 
-| 变量名 | 是否必填 | 默认值 | 说明 |
-|--------|---------|--------|------|
-| `KOMARI_ENDPOINT` | 必填* | 无 | Komari Dashboard 服务器地址（格式：`http://server:25774`） |
-| `KOMARI_TOKEN` | 必填* | 无 | Komari Dashboard 自动发现密钥（AD Key） |
-| `KOMARI_ENABLE_WEBSSH` | 可选 | `false` | 是否启用 WebSSH 远程控制功能，设为 `true` 启用 |
+| 变量名 | 默认值 | 说明 | 示例 |
+|--------|--------|------|------|
+| `UUID` | 随机UUID | V2Ray客户端UUID | `a5d4e2b0-...` |
+| `VMESS_WSPATH` | `/vmess` | VMess WebSocket路径 | `/vmess` |
+| `VLESS_WSPATH` | `/vless` | VLESS WebSocket路径 | `/vless` |
+| `KOMARI_ENDPOINT` | - | Komari Dashboard地址 | `https://tz.070227.xyz` |
+| `KOMARI_TOKEN` | - | Komari Agent Token | `your-token` |
+| `KOMARI_ENABLE_WEBSSH` | `false` | 启用WebSSH功能 | `true` / `false` |
+| **`KOMARI_MONTH_ROTATE`** | **`0`** | **月度流量重置日期** | **`1`=每月1号，`0`=禁用** |
+
+### Komari 月度流量统计
+
+**用途**：自动在每月指定日期重置流量统计，便于跟踪月度流量配额。
+
+**示例配置**：
+
+```bash
+# Render环境变量
+KOMARI_ENDPOINT=https://tz.070227.xyz
+KOMARI_TOKEN=your-token-here
+KOMARI_MONTH_ROTATE=1          # 每月1号重置流量
+KOMARI_ENABLE_WEBSSH=false
+
 
 > **注意**：只有同时设置 `KOMARI_ENDPOINT` 和 `KOMARI_TOKEN` 时，Komari Agent 才会启动。如果不设置这两个变量，容器仍会正常运行，只是没有监控功能。
 
